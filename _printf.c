@@ -19,30 +19,43 @@ int _printf(const char *format, ...)
 
 	while (*pt != '\0')
 		if (*pt != '%')
+		{
 			write(1, pt, 1);
 			print_out++;
+		}
 		else
 		{
 			pt++;
-			if (*pt == '%')
-				write(1, pt, 1);
-				print_out++;
-			else if (*pt == 'c')
-				char c = va_arg(l, int);
-
-				print_out += print_char(1, c);
-			else if (*pt == 's')
-				char *str = va_arg(l, char*);
-
-				if (str == NULL)
-					str = "(null)";
-				print_out += print_string(1, str);
-			else if (*pt == 'd' || *pt == 'i')
-				int num = va_arg(l, int);
-
-				print_out += print_int(1, num);
-			else if (*pt == '%')
-				print_out += print_percent(1);
+			switch (*pt)
+			{
+				case '%':
+					write(1, pt, 1);
+					print_out++;
+					break;
+				case 'c':
+					{
+						char c = va_arg(l, int)
+						print_out += print_char(1, c);
+						break;
+					}
+				case 's':
+					{
+						char *str = va_arg(l, char *);
+						if (str == NULL)
+						{
+							str = "(null)";
+						}
+						print_out += print_string(1, str);
+						break;
+					}
+				case 'd':
+				case 'i':
+					{
+						int num = va_arg(l, int);
+						print_out += print_int(1, num);
+						break;
+					}
+			}
 		}
 	pt++;
 
@@ -50,4 +63,3 @@ int _printf(const char *format, ...)
 
 	return (print_out);
 }
-
