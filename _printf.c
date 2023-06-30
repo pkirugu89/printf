@@ -1,65 +1,69 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdarg.h>
+
+void print_buffer(char buffer[], int *buff_ind);
 
 /**
- * _printf - function to print formatted output
- * @format: method argument.
- * Return: Printed chars.
- */
-
+* _printf - Printf function
+* @format: format.
+* Return: Printed chars.
+*/
 int _printf(const char *format, ...)
 {
-	va_list l; /* l is a variable of va_list */
+	int y, printed = 0, printed_count = 0;
+	int flags, width, precision, size, buff_ind = 0;
+	va_list l;
+	char buffer[BUFF_SIZE];
+
+	if (format == NULL)
+		return (-1);
 
 	va_start(l, format);
 
-	int print_out = 0;
-	const char *pt = format;
-
-	while (*pt != '\0')
-		if (*pt != '%')
+	for (y = 0; format && format[y] != '\0'; y++)
+	{
+		if (format[y] != '%')
 		{
-			write(1, pt, 1);
-			print_out++;
+			buffer[buff_ind++] = format[y];
+			if (buff_ind == BUFF_SIZE)
+				print_buffer(buffer, &buff_ind);
+			printed_count++;
 		}
 		else
 		{
-			pt++;
-			switch (*pt)
-			{
-				case '%':
-					write(1, pt, 1);
-					print_out++;
-					break;
-				case 'c':
-					{
-						char c = va_arg(l, int)
-						print_out += print_char(1, c);
-						break;
-					}
-				case 's':
-					{
-						char *str = va_arg(l, char *);
-						if (str == NULL)
-						{
-							str = "(null)";
-						}
-						print_out += print_string(1, str);
-						break;
-					}
-				case 'd':
-				case 'i':
-					{
-						int num = va_arg(l, int);
-						print_out += print_int(1, num);
-						break;
-					}
-			}
+			print_buffer(buffer, &buff_ind);
+			flags = get_flags(format, &y);
+			width = get_width(format, &y, l);
+			precision = get_precision(format, &y, l);
+			size = get_size(format, &y);
+			++i;
+			printed = handle_print(format, &y, l, buffer,
+					flags, width, precision, size);
+			if (printed == -1)
+				return (-1);
+			printed_count += printed;
 		}
-	pt++;
+	}
 
+	print_buffer(buffer, &buff_ind);
 	va_end(l);
 
-	return (print_out);
+	return (printed_count);
 }
+
+/**
+* print_buffer - Prints the contents of the buffer if it exists
+* @buffer: Array of chars
+* @buff_ind: Index at which to add next char, represents the length.
+*/
+void print_buffer(char buffer[], int *buff_ind)
+{
+	if (*buff_ind > 0)
+	{
+		for (int i = 0; i < *buff_ind; i++)
+		{
+			_putchar(buffer[i]);
+		}
+	}
+	*buff_ind = 0;
+}
+
