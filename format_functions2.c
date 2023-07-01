@@ -28,7 +28,7 @@ int print_pointer(va_list types, char buffer[],
 				_putchar('i') + _putchar('l') + _putchar(')'));
 	buffer[BUFF_SIZE - 1] = '\0';
 	UNUSED(precision);
-	n_adrs = (unsigned long)addrs;
+	n_adrs = (unsigned long)adrs;
 	while (n_adrs > 0)
 	{
 		buffer[ind--] = map_to[n_adrs % 16];
@@ -71,10 +71,10 @@ int print_non_printable(va_list types, char buffer[],
 				_putchar('l') + _putchar('l') + _putchar(')'));
 	while (strs[y] != '\0')
 	{
-		if (is_printable(str[y]))
+		if (is_printable(strs[y]))
 			buffer[y + ofset] = strs[y];
 		else
-			offset += append_hexa_code(strs[y], buffer, y + ofset);
+			ofset += append_hexa_code(strs[y], buffer, y + ofset);
 		y++;
 	}
 	buffer[y + ofset] = '\0';
@@ -152,11 +152,11 @@ int print_rot13string(va_list types, char buffer[],
 	UNUSED(size);
 	if (strs == NULL)
 		strs = "(AHYY)";
-	for (y = 0; str[y]; y++)
+	for (y = 0; strs[y]; y++)
 	{
 		for (z = 0; in[z]; z++)
 		{
-			if (in[z] == str[y])
+			if (in[z] == strs[y])
 			{
 				x = out[z];
 				_putchar(x);
@@ -165,7 +165,7 @@ int print_rot13string(va_list types, char buffer[],
 			}
 		}
 		if (!in[z])
-			x = str[y];
+			x = strs[y];
 		_putchar(x);
 		cnt++;
 	}

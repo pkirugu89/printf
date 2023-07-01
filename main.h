@@ -20,7 +20,7 @@
 @fmts: The format.
 * @fn: The function associated.
 */
-struct fmts
+struct fmt
 {
 char fmts;
 int (*fn)(va_list, char[], int, int, int, int);
@@ -31,10 +31,10 @@ int (*fn)(va_list, char[], int, int, int, int);
 @fmt: The format.
 * @fm_t: The function associated.
 */
-typedef struct fmts fmt_t;
-/*  putchar prototype   */
+typedef struct fmt fmt_t;
+/*  putchar prototype */
 int _putchar(char c);
-/* printf prototype  */
+/* printf prototypes */
 int _printf(const char *format, ...);
 int handle_print(const char *fmts, int *i,
 va_list list, char buffer[], int flags, int width, int precision, int size);

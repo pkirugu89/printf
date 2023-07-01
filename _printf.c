@@ -35,7 +35,7 @@ int _printf(const char *format, ...)
 			width = get_width(format, &y, l);
 			precision = get_precision(format, &y, l);
 			size = get_size(format, &y);
-			++i;
+				++y;
 			printed = handle_print(format, &y, l, buffer,
 					flags, width, precision, size);
 			if (printed == -1)
@@ -57,11 +57,12 @@ int _printf(const char *format, ...)
 */
 void print_buffer(char buffer[], int *buff_ind)
 {
+	int y;
 	if (*buff_ind > 0)
 	{
-		for (int i = 0; i < *buff_ind; i++)
+		for (y = 0; y < *buff_ind; y++)
 		{
-			_putchar(buffer[i]);
+			_putchar(buffer[y]);
 		}
 	}
 	*buff_ind = 0;
